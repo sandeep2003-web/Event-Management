@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Management System v11 - Full Stack Demo</title>
+    <link rel="stylesheet" href="EventMenagemt.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="hero-section">
+        <h1 class="hero-title">Event Management System v11</h1>
+        <p class="hero-subtitle">
+          Version 11.0 - Advanced event planning and management system with
+          real-time registration tracking, comprehensive analytics, and enhanced
+          user experience
+        </p>
+        <div class="cta-buttons">
+          <button
+            class="btn"
+            onclick="showTab('frontend'); document.querySelector('.tab[onclick*=frontend]').click()"
+          >
+            Explore Platform v11
+          </button>
+          <button
+            class="btn btn-secondary"
+            onclick="showTab('backend'); document.querySelector('.tab[onclick*=backend]').click()"
+          >
+            View API v11
+          </button>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('frontend')">
+            🎨 Frontend Demo v11
+          </button>
+          <button class="tab" onclick="showTab('backend')">
+            ⚡ Backend API v11
+          </button>
+          <button class="tab" onclick="showTab('database')">
+            🗄️ Database v11
+          </button>
+        </div>
+
+        <!-- Frontend Demo Tab -->
+        <div class="tab-content active" id="frontend">
+          <!-- Statistics Dashboard -->
+          <div class="section">
+            <h2>Dashboard Overview v11</h2>
+            <div class="stats-grid" id="statsGrid">
+              <!-- Stats will be populated here -->
+            </div>
+          </div>
+
+          <!-- User Selection -->
+          <div class="section">
+            <h2>User Management v11</h2>
+            <div class="form-group">
+              <label for="currentUser">Active User:</label>
+              <select id="currentUser">
+                <option value="">Choose a user...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Create User Form -->
+          <div class="section">
+            <h3>Create New User v11</h3>
+            <form id="userForm">
+              <div class="form-group">
+                <label for="userName">Full Name:</label>
+                <input type="text" id="userName" required />
+              </div>
+              <div class="form-group">
+                <label for="userEmail">Email:</label>
+                <input type="email" id="userEmail" required />
+              </div>
+              <button type="submit" class="btn">Create User</button>
+            </form>
+          </div>
+
+          <!-- Create Event Form -->
+          <div class="section">
+            <h3>Create New Event v11</h3>
+            <form id="eventForm">
+              <div class="form-group">
+                <label for="eventTitle">Event Title:</label>
+                <input
+                  type="text"
+                  id="eventTitle"
+                  required
+                  placeholder="Enter event title"
+                />
+              </div>
+              <div class="form-group">
+                <label for="eventDate">Date & Time:</label>
+                <input type="datetime-local" id="eventDate" required />
+              </div>
+              <div class="form-group">
+                <label for="eventLocation">Location:</label>
+                <input
+                  type="text"
+                  id="eventLocation"
+                  required
+                  placeholder="Enter event location"
+                />
+              </div>
+              <div class="form-group">
+                <label for="eventCapacity">Capacity (Max 1000):</label>
+                <input
+                  type="number"
+                  id="eventCapacity"
+                  min="1"
+                  max="1000"
+                  required
+                  placeholder="Enter capacity"
+                />
+              </div>
+              <button type="submit" class="btn">Create Event</button>
+            </form>
+          </div>
+
+          <!-- Advanced Event Management -->
+          <div class="section">
+            <h3>Event Management Actions v11</h3>
+
+            <!-- Action Buttons -->
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+              "
+            >
+              <button class="btn" onclick="showUpcomingEvents()">
+                Show Upcoming Events
+              </button>
+              <button class="btn btn-secondary" onclick="showAllEvents()">
+                Show All Events
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="showEventDetailsForm()"
+              >
+                Get Event Details
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="showCancelRegistrationForm()"
+              >
+                Cancel Registration
+              </button>
+              <button class="btn btn-secondary" onclick="showEventStatsForm()">
+                View Event Stats
+              </button>
+              <button class="btn btn-secondary" onclick="showUserEventsForm()">
+                View User Events
+              </button>
+            </div>
+
+            <!-- Event Details Form -->
+            <div
+              id="eventDetailsForm"
+              style="
+                display: none;
+                background: #fafafa;
+                padding: 30px;
+                border: 1px solid #e8e8e8;
+                margin-bottom: 20px;
+              "
+            >
+              <h4
+                style="
+                  margin-bottom: 20px;
+                  font-family: 'Playfair Display', serif;
+                "
+              >
+                Get Event Details
+              </h4>
+              <div class="form-group">
+                <label for="detailsEventId">Select Event:</label>
+                <select id="detailsEventId">
+                  <option value="">Choose an event...</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 15px">
+                <button class="btn" onclick="getEventDetails()">
+                  Get Details
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="closeForm('eventDetailsForm')"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- Cancel Registration Form -->
+            <div
+              id="cancelRegistrationForm"
+              style="
+                display: none;
+                background: #fafafa;
+                padding: 30px;
+                border: 1px solid #e8e8e8;
+                margin-bottom: 20px;
+              "
+            >
+              <h4
+                style="
+                  margin-bottom: 20px;
+                  font-family: 'Playfair Display', serif;
+                "
+              >
+                Cancel Registration
+              </h4>
+              <div class="form-group">
+                <label for="cancelEventId">Select Event:</label>
+                <select
+                  id="cancelEventId"
+                  onchange="populateUsersForEvent(this.value)"
+                >
+                  <option value="">Choose an event...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="cancelUserId">Select Registered User:</label>
+                <select id="cancelUserId">
+                  <option value="">First select an event...</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 15px">
+                <button class="btn" onclick="cancelUserRegistration()">
+                  Cancel Registration
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="closeForm('cancelRegistrationForm')"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- Event Stats Form -->
+            <div
+              id="eventStatsForm"
+              style="
+                display: none;
+                background: #fafafa;
+                padding: 30px;
+                border: 1px solid #e8e8e8;
+                margin-bottom: 20px;
+              "
+            >
+              <h4
+                style="
+                  margin-bottom: 20px;
+                  font-family: 'Playfair Display', serif;
+                "
+              >
+                View Event Statistics
+              </h4>
+              <div class="form-group">
+                <label for="statsEventId">Select Event:</label>
+                <select id="statsEventId">
+                  <option value="">Choose an event...</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 15px">
+                <button class="btn" onclick="getEventStats()">
+                  View Stats
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="closeForm('eventStatsForm')"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- User Events Form -->
+            <div
+              id="userEventsForm"
+              style="
+                display: none;
+                background: #fafafa;
+                padding: 30px;
+                border: 1px solid #e8e8e8;
+                margin-bottom: 20px;
+              "
+            >
+              <h4
+                style="
+                  margin-bottom: 20px;
+                  font-family: 'Playfair Display', serif;
+                "
+              >
+                View User's Registered Events
+              </h4>
+              <div class="form-group">
+                <label for="userEventsUserId">Select User:</label>
+                <select id="userEventsUserId">
+                  <option value="">Choose a user...</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 15px">
+                <button class="btn" onclick="getUserEvents()">
+                  View Events
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="closeForm('userEventsForm')"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- Results Display Modal -->
+            <div
+              id="resultsModal"
+              style="
+                display: none;
+                background: white;
+                padding: 40px;
+                border: 2px solid #1a1a1a;
+                margin-top: 20px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 30px;
+                "
+              >
+                <h4
+                  style="
+                    margin: 0;
+                    font-family: 'Playfair Display', serif;
+                    font-size: 1.8em;
+                  "
+                  id="resultsTitle"
+                >
+                  Results
+                </h4>
+                <button
+                  class="btn btn-secondary"
+                  onclick="closeResults()"
+                  style="padding: 10px 20px"
+                >
+                  ✕ Close
+                </button>
+              </div>
+              <div
+                id="resultsContent"
+                style="max-height: 500px; overflow-y: auto"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Events Display -->
+          <div class="section">
+            <h3>Event Catalog v11</h3>
+
+            <!-- Search and Filter Bar -->
+            <div class="filter-bar">
+              <input
+                type="text"
+                class="search-box"
+                id="eventSearch"
+                placeholder="Search events by title or location..."
+              />
+              <select class="filter-select" id="eventFilter">
+                <option value="all">All Events</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="available">Available Spots</option>
+                <option value="full">Fully Booked</option>
+              </select>
+              <select class="filter-select" id="sortEvents">
+                <option value="date">Sort by Date</option>
+                <option value="title">Sort by Title</option>
+                <option value="capacity">Sort by Capacity</option>
+              </select>
+            </div>
+
+            <div id="eventsContainer" class="events-grid">
+              <!-- Events will be displayed here -->
+            </div>
+          </div>
+
+          <!-- Users Display -->
+          <div class="section">
+            <h3>Registered Users v11</h3>
+            <div id="usersContainer" class="users-list">
+              <!-- Users will be displayed here -->
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <div id="messageContainer"></div>
+        </div>
+
+        <!-- Backend API Tab -->
+        <div class="tab-content" id="backend">
+          <div class="section">
+            <h2>Backend API Simulation v11</h2>
+
+            <div class="api-demo">
+              <h4>Complete REST API Endpoints v11:</h4>
+
+              <div class="endpoint">
+                <span class="method post">POST</span> /api/users - Create new
+                user (with email validation)
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/users - Get all users
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/users/:id - Get user by
+                ID with registered events
+              </div>
+              <div class="endpoint">
+                <span class="method post">POST</span> /api/events - Create new
+                event (capacity ≤1000, future date)
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/events - Get all events
+                with statistics
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/events/:id - Get event
+                details with registered users
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/events/upcoming - List
+                upcoming events (sorted by date, then location)
+              </div>
+              <div class="endpoint">
+                <span class="method post">POST</span> /api/events/:id/register -
+                Register user for event
+              </div>
+              <div class="endpoint">
+                <span class="method delete">DELETE</span>
+                /api/events/:id/register/:userId - Cancel registration
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/events/:id/stats - Get
+                event statistics
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span> /api/system/stats - Get
+                system-wide statistics
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>API Response Examples v11</h3>
+            <div id="apiResponses"></div>
+          </div>
+
+          <div class="section">
+            <h3>Test API Endpoints v11</h3>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+              "
+            >
+              <button class="btn" onclick="testAPI('users')">
+                GET /api/users
+              </button>
+              <button class="btn" onclick="testAPI('events')">
+                GET /api/events
+              </button>
+              <button class="btn" onclick="testAPI('upcoming')">
+                GET /api/events/upcoming
+              </button>
+              <button class="btn" onclick="testAPI('eventDetails')">
+                GET /api/events/1
+              </button>
+              <button class="btn" onclick="testAPI('stats')">
+                GET /api/events/1/stats
+              </button>
+              <button class="btn" onclick="testAPI('systemStats')">
+                GET /api/system/stats
+              </button>
+              <button class="btn" onclick="testAPI('userDetails')">
+                GET /api/users/1
+              </button>
+              <button class="btn btn-secondary" onclick="testAPI('cancelReg')">
+                DELETE /api/events/1/register/2
+              </button>
+            </div>
+
+            <h4
+              style="margin-top: 40px; font-family: 'Playfair Display', serif"
+            >
+              Validation Tests
+            </h4>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+                margin-top: 20px;
+              "
+            >
+              <button
+                class="btn"
+                onclick="testValidation('duplicateReg')"
+                style="background: #ef4444"
+              >
+                Test Duplicate Registration
+              </button>
+              <button
+                class="btn"
+                onclick="testValidation('fullEvent')"
+                style="background: #f59e0b"
+              >
+                Test Full Event Registration
+              </button>
+              <button
+                class="btn"
+                onclick="testValidation('pastEvent')"
+                style="background: #8b5cf6"
+              >
+                Test Past Event Registration
+              </button>
+              <button
+                class="btn"
+                onclick="testValidation('invalidUser')"
+                style="background: #ec4899"
+              >
+                Test Invalid User ID
+              </button>
+              <button
+                class="btn"
+                onclick="testValidation('invalidEvent')"
+                style="background: #06b6d4"
+              >
+                Test Invalid Event ID
+              </button>
+              <button
+                class="btn"
+                onclick="testValidation('lateCancellation')"
+                style="background: #84cc16"
+              >
+                Test Late Cancellation
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database Tab -->
+        <div class="tab-content" id="database">
+          <div class="section">
+            <h2>Database Schema & Data v11</h2>
+
+            <div class="section">
+              <h3>Current Database State v11</h3>
+              <div id="databaseView"></div>
+            </div>
+
+            <div class="section">
+              <h3>Database Operations Log v11</h3>
+              <div id="dbLog" class="api-demo">
+                <p>Database operations will be logged here...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="EventMAngement.js"></script>
+    <script src="EventMangament1.js"></script>
+  </body>
+</html>
